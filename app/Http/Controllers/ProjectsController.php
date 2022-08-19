@@ -37,7 +37,13 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        Project::create(request(['title', 'description']));
+        $attr = request()->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+
+        Project::create($attr);
         return redirect()->route('projects.index');
     }
 
@@ -47,9 +53,9 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Project $project)
     {
-        //
+        return view('projects.show', compact('project'));
     }
 
     /**
